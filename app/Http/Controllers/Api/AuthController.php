@@ -9,6 +9,7 @@ use App\User;
 use App\Employer;
 use App\JobSeeker;
 use Auth;
+use Mail;
 
 class AuthController extends Controller
 {
@@ -34,23 +35,29 @@ class AuthController extends Controller
 
        if(Auth::attempt(['email'=>request('email'),'password'=> request('password') ])){
            $user = Auth::user();
-           return response()->json([
-             'message' => 'login successful',
-             'error'=> false,
-             'data'=> [
-               'token'=>$user->createToken('ja9sh1zhdDdsomejdjjf12')->accessToken,
-               'user'=>$user
-             ],
-             'status'=>true
-           ],200);
+           $user = auth()->user();
+           $data = array(
+            'name' => "Learning Laravel",
+        );
+
+              return response()->json([
+                'message' => 'login successful',
+                'error'=> false,
+                'data'=> [
+                      'token'=>$user->createToken('aCm12s')->accessToken,
+                      'user'=>$user
+                ],
+                'status'=>true
+              ],200);
        }
 
-       return response()->json([
-         'message' => 'Incorrect Username or password',
-         'error'=> 'username or password is incorrect',
-         'data'=> false,
-         'status'=>false
-       ],401);
+       
+          return response()->json([
+            'message' => 'Incorrect Username or password',
+            'error'=> 'username or password is incorrect',
+            'data'=> false,
+            'status'=>false
+          ],401);
 
     }
 
@@ -120,6 +127,13 @@ class AuthController extends Controller
       }
 
      if($created){
+
+      Mail::send('emails.welcome', $user, function ($message) {
+
+        $message->from('massaybah@gmail.com', 'Registeration');
+
+        $message->to('massaybah@gmail.com')->subject('Learning Laravel test email');
+        });
 
         $user->users()->create([
             'email' => Request('email'),
