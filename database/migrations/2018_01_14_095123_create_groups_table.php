@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UserRoleTableFix extends Migration
+class CreateGroupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class UserRoleTableFix extends Migration
      */
     public function up()
     {
-        // Schema::table('role_user', function (Blueprint $table) {
-        //     $table->integer('role_id')->unsigned();
-        //     $table->integer('user_id')->unsigned();
+        // Schema::create('groups', function (Blueprint $table) {
+        //     $table->increments('id');
+        //     $table->string('name')->unique();
+        //     $table->text('about')->nullable();
+        //     $table->timestamps();
         // });
     }
 
@@ -26,8 +28,6 @@ class UserRoleTableFix extends Migration
      */
     public function down()
     {
-        Schema::table('role_user', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('groups');
     }
 }

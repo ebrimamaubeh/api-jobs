@@ -13,9 +13,9 @@ class RolesTableFix extends Migration
      */
     public function up()
     {
-        Schema::table('roles', function (Blueprint $table) {
-            $table->string('name',100)->unique();
-        });
+        // Schema::table('roles', function (Blueprint $table) {
+        //     $table->string('name',100)->unique();
+        // });
     }
 
     /**

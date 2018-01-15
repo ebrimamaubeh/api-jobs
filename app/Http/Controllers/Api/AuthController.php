@@ -51,7 +51,7 @@ class AuthController extends Controller
               ],200);
        }
 
-       
+
           return response()->json([
             'message' => 'Incorrect Username or password',
             'error'=> 'username or password is incorrect',
@@ -128,12 +128,12 @@ class AuthController extends Controller
 
      if($created){
 
-      Mail::send('emails.welcome', $user, function ($message) {
-
-        $message->from('massaybah@gmail.com', 'Registeration');
-
-        $message->to('massaybah@gmail.com')->subject('Learning Laravel test email');
-        });
+      // Mail::send('emails.welcome', $user, function ($message) {
+      //
+      //   $message->from('massaybah@gmail.com', 'Registeration');
+      //
+      //   $message->to('massaybah@gmail.com')->subject('Learning Laravel test email');
+      //   });
 
         $user->users()->create([
             'email' => Request('email'),

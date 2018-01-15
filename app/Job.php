@@ -47,4 +47,5 @@ class Job extends Model
 
 
 
+
 }

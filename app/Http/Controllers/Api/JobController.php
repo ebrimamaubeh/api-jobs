@@ -9,6 +9,11 @@ use Validator;
 use Auth;
 class JobController extends Controller
 {
+
+ public function __construct()
+ {
+     $this->middleware('auth:api',['only'=>['store']]);
+ }
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +22,7 @@ class JobController extends Controller
     public function index()
     {
       try{
-        return Job::all();
+        return Job::with('user')->get();
       }catch(Exception $e){
         return 'error';
       }
@@ -42,12 +47,20 @@ class JobController extends Controller
      */
     public function store(Request $request)
     {
+      // $test = request('descriptions');
+      // $collection = collect($test);
+      // $data = $collection->each(function($item,$key){
+      //       return ['name'=>$item];
+      // });
+      // return $data;
+      // return $request->all();
           $validate = Validator::make( $request->all(), [
               'title'=>'required',
               'type_id'=>'required',
+              'summary'=> 'required',
               'level_id'=>'required',
-              'status_id'=>'required',
-              'closing_date'=>'required | date',
+            //   'status_id'=>'required',
+            //   'closing_date'=>'required | date',
               'price'=>'required'
           ]);
           if($validate->fails()){
@@ -63,11 +76,14 @@ class JobController extends Controller
           $job->level_id =request('level_id');
           $job->summary =request('summary');
           $job->type_id =request('type_id');
-          $job->status_id =request('status_id');
-          $job->closing_date =request('closing_date');
+          $job->status_id = 2;
+          $job->closing_date ='2019-01-01';
+        //   request('closing_date')
           $job->price =request('price');
           $job->user_id =Auth::id();
           $job->save();
+          $job->descriptions()->createMany(request('descriptions'));
+          $job->categories()->attach(request('categories'));
           return response()->json([
                 'message'=>'job successfully created',
                 'status'=>true,

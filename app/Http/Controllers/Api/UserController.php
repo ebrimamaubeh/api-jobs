@@ -8,6 +8,11 @@ use App\Http\Controllers\Controller;
 use Auth;
 class UserController extends Controller
 {
+
+  public function __construct()
+  {
+      $this->middleware('auth:api',['only'=>['index','store','apply']]);
+  }
     /**
      * Display a listing of the resource.
      *
@@ -16,13 +21,34 @@ class UserController extends Controller
     public function index()
     {
           return response()->json([
-            'message' => 'login successful',
+            'message' => 'logged in user',
             'error'=> false,
             'data'=> [
               'user'=> Auth::user()
             ],
             'status'=>true
           ],200);
+    }
+
+
+    public function apply(Request $request){
+           $user = Auth::user();
+           $user->applications()->attach($request->only(['job_id']));
+            return response()->json([
+                'message'=>'job application recieved',
+                'data'=> $user->applications
+            ],200);
+    }
+
+    public function allUsers(){
+      return response()->json([
+        'message' => 'display all users',
+        'error'=> false,
+        'data'=> [
+          'users'=> User::where('userable_type','like','%JobSeeker%')->get()
+        ],
+        'status'=>true
+      ],200);
     }
 
     /**

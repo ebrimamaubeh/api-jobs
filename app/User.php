@@ -11,7 +11,7 @@ class User extends Authenticatable
   use HasApiTokens, Notifiable;
 
 
-   protected $with = ['jobs','roles'];
+   protected $with = ['jobs','roles','userable','skills'];
     /**
      * The attributes that are mass assignable.
      *
@@ -39,8 +39,15 @@ class User extends Authenticatable
      //needs
    }
 
+   public function skills(){
+     return $this->belongsToMany('App\Category','skills','user_id','category_id');
+   }
+
    public function jobs(){
      return $this->hasMany('App\Job');
+   }
+   public function applications(){
+     return $this->belongsToMany('App\Job');
    }
 
    public function roles(){

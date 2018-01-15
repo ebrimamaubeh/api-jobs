@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEmployersTable extends Migration
+class AddGroupIdToCategories extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateEmployersTable extends Migration
      */
     public function up()
     {
-        Schema::create('employers', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name')->nullable();
-            $table->text()'why_us')->nullable();
-            $table->text('about')->nullable();
-            $table->timestamps();
+        Schema::table('categories', function (Blueprint $table) {
+            $table->integer('group_id')->unsigned()->default(1);
+            $table->foreign('group_id')->references('id')->on('groups');
         });
     }
 
@@ -29,6 +26,8 @@ class CreateEmployersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('employers');
+        Schema::table('categories', function (Blueprint $table) {
+            //
+        });
     }
 }
