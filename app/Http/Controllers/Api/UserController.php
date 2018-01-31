@@ -11,7 +11,7 @@ class UserController extends Controller
 
   public function __construct()
   {
-      $this->middleware('auth:api',['only'=>['index','store','apply']]);
+      $this->middleware('auth:api',['only'=>['index','store','apply','uploadImage']]);
   }
     /**
      * Display a listing of the resource.
@@ -59,6 +59,34 @@ class UserController extends Controller
     public function create()
     {
         //
+    }
+
+    public function uploadImage(Request $request){
+      // $data = $request->all();
+      // return $data;
+      $originalName="";
+      if($request->hasFile('avatar') && $request->file('avatar')->isValid()){
+               $originalName=$request->file('avatar')->getClientOriginalName();
+               $path = $request->file('avatar')->store('public');
+               $originalName=   $path;
+              $path = explode('/',$path)[1];
+               $user = Auth::user();
+               $user->avatar = $path;
+               $user->save();
+           }
+      return response()->json([
+        'data'=>$originalName
+      ]);
+        // $path = $request->file('avatar')->store('avatars');
+        // $user = Auth::user();
+        // $user->avatar  = $path;
+        // $user->save();
+        // return response()->json([
+        //     'message'=>'uploaed',
+        //     'path'=>$path,
+        //     'user'=> $user
+        // ],200);
+        // return $path;
     }
 
     /**

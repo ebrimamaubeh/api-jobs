@@ -25,6 +25,7 @@ Route::group(['middleware'=>'auth:api'], function(){
     Route::resource('categories', 'Api\CategoryController');
     Route::resource('addresses', 'Api\AddressController');
     Route::resource('users', 'Api\UserController');
+    Route::post('uploadImage','Api\UserController@uploadImage');
     Route::get('seekers','Api\UserController@allUsers');
   Route::resource('jobs', 'Api\JobController');
  Route::post('apply', 'Api\UserController@apply');

@@ -13,12 +13,12 @@ class AddColumnsToJobUserTable extends Migration
      */
     public function up()
     {
-        Schema::table('job_user', function (Blueprint $table) {
-          $table->integer('job_id')->unsigned();
-          $table->foreign('job_id')->references('id')->on('jobs');
-          $table->integer('user_id')->unsigned();
-          $table->foreign('user_id')->references('id')->on('users');
-        });
+        // Schema::table('job_user', function (Blueprint $table) {
+        //   $table->integer('job_id')->unsigned();
+        //   $table->foreign('job_id')->references('id')->on('jobs');
+        //   $table->integer('user_id')->unsigned();
+        //   $table->foreign('user_id')->references('id')->on('users');
+        // });
     }
 
     /**
