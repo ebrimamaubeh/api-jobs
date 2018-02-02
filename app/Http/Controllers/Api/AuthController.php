@@ -92,8 +92,8 @@ class AuthController extends Controller
         }
         $created = false;
       if(request('user_type')===1){
-              $validate = Validator::make( $request->only(['employer_name']),[
-                 'employer_name' => 'required',
+              $validate = Validator::make( $request->only(['name']),[
+                 'name' => 'required',
               ]);
               if($validate->fails()){
                       return response()->json([
@@ -104,7 +104,9 @@ class AuthController extends Controller
                       ],401);
               }
                 $user = new Employer();
-                $user->name = request('employer_name');
+                $user->why_us="nothing set on why you should choose us";
+                $user->about="nothing set on about us ";
+                $user->name = request('name');
                 $created =  $user->save();
       }
       if(request('user_type')===2){
@@ -114,7 +116,7 @@ class AuthController extends Controller
               ]);
               if($validate->fails()){
                     return response()->json([
-                      'message' => 'validatiuserson failed',
+                      'message' => 'validation failed',
                       'error'=> $validate->errors(),
                       'data'=> false,
                       'status'=>false

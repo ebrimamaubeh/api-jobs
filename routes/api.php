@@ -23,6 +23,7 @@ Route::group(['middleware'=>'auth:api'], function(){
 
 });
     Route::resource('categories', 'Api\CategoryController');
+    Route::resource('education', 'Api\EducationController');
     Route::resource('addresses', 'Api\AddressController');
     Route::resource('users', 'Api\UserController');
     Route::post('uploadImage','Api\UserController@uploadImage');
